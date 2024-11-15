@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
+  height: 100vh;
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -14,7 +15,8 @@ export const ToggleButtonContainer = styled.div`
 `;
 
 export const ToggleButton = styled.button<{ active: boolean }>`
-  background-color: ${({ active, theme }) => (active ? '#007bff' : theme.background)};
+  background-color: ${({ active, theme }) =>
+    active ? '#007bff' : theme.background};
   color: ${({ active, theme }) => (active ? '#fff' : theme.text)};
   border: none;
   padding: 0.5rem 1rem;

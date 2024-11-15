@@ -7,12 +7,25 @@ import SearchForm from '../searchForm';
 import LoadingSpinner from '../loader';
 
 const TableView: React.FC = () => {
-  const { placesData, placesLoading, placesError, updatePagination, searchParams, refetchPlaces } = usePlaces();
+  const {
+    placesData,
+    placesLoading,
+    placesError,
+    updatePagination,
+    searchParams,
+    refetchPlaces,
+  } = usePlaces();
   const [selectedPlace, setSelectedPlace] = useState<any>(null);
-  const [sortConfig, setSortConfig] = useState<{ key: string; direction: string } | null>(null);
+  const [sortConfig, setSortConfig] = useState<{
+    key: string;
+    direction: string;
+  } | null>(null);
 
   const handleSort = (key: string) => {
-    const direction = sortConfig?.key === key && sortConfig.direction === 'asc' ? 'desc' : 'asc';
+    const direction =
+      sortConfig?.key === key && sortConfig.direction === 'asc'
+        ? 'desc'
+        : 'asc';
     setSortConfig({ key, direction });
   };
 
@@ -47,10 +60,18 @@ const TableView: React.FC = () => {
       <S.StyledTable>
         <thead>
           <tr>
-            <S.TableHeader onClick={() => handleSort('name')}>Name</S.TableHeader>
-            <S.TableHeader onClick={() => handleSort('category')}>Category</S.TableHeader>
-            <S.TableHeader onClick={() => handleSort('description')}>Description</S.TableHeader>
-            <S.TableHeader onClick={() => handleSort('address')}>Address</S.TableHeader>
+            <S.TableHeader onClick={() => handleSort('name')}>
+              Name
+            </S.TableHeader>
+            <S.TableHeader onClick={() => handleSort('category')}>
+              Category
+            </S.TableHeader>
+            <S.TableHeader onClick={() => handleSort('description')}>
+              Description
+            </S.TableHeader>
+            <S.TableHeader onClick={() => handleSort('address')}>
+              Address
+            </S.TableHeader>
           </tr>
         </thead>
         <tbody>
@@ -60,7 +81,10 @@ const TableView: React.FC = () => {
             </tr>
           ) : (
             sortedPlaces.map((place: any) => (
-              <S.TableRow key={place.id} onClick={() => setSelectedPlace(place)}>
+              <S.TableRow
+                key={place.id}
+                onClick={() => setSelectedPlace(place)}
+              >
                 <S.TableCell>{place.name}</S.TableCell>
                 <S.TableCell>{place.category}</S.TableCell>
                 <S.TableCell>{place.description}</S.TableCell>
@@ -70,7 +94,7 @@ const TableView: React.FC = () => {
           )}
         </tbody>
       </S.StyledTable>
-      
+
       <S.PaginationWrapper>
         <Pagination
           currentPage={searchParams.page}
@@ -81,7 +105,10 @@ const TableView: React.FC = () => {
       </S.PaginationWrapper>
 
       {selectedPlace && (
-        <PlaceDetailsModal placeId={selectedPlace.id} onClose={() => setSelectedPlace(null)} />
+        <PlaceDetailsModal
+          placeId={selectedPlace.id}
+          onClose={() => setSelectedPlace(null)}
+        />
       )}
     </S.TableContainer>
   );

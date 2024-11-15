@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { fetchPlaceById } from '../../services/api/places';
 import * as S from './placesDetailModal.styles';
 
-const PlaceDetailsModal: React.FC<{ placeId: string; onClose: () => void }> = ({ placeId, onClose }) => {
+const PlaceDetailsModal: React.FC<{ placeId: string; onClose: () => void }> = ({
+  placeId,
+  onClose,
+}) => {
   const [place, setPlace] = useState<any>(null);
 
   useEffect(() => {

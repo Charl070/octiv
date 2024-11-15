@@ -8,7 +8,10 @@ export const fetchPlaces = async (params: { page: number; limit: number }) => {
     return data;
   } catch (error: any) {
     console.error('Error fetching places:', error);
-    throw new Error(error?.response?.data?.message || 'Something went wrong while fetching places');
+    throw new Error(
+      error?.response?.data?.message ||
+        'Something went wrong while fetching places'
+    );
   }
 };
 
@@ -18,6 +21,9 @@ export const fetchPlaceById = async (id: string) => {
     return data;
   } catch (error: any) {
     console.error('Error fetching place by ID:', error);
-    throw new Error(error?.response?.data?.message || 'Something went wrong while fetching the place details');
+    throw new Error(
+      error?.response?.data?.message ||
+        'Something went wrong while fetching the place details'
+    );
   }
 };

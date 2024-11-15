@@ -4,6 +4,7 @@ export const TableContainer = styled.div`
   overflow-x: auto;
   margin-top: 1rem;
   background-color: ${({ theme }) => theme.background};
+  height: 100%;
 `;
 
 export const StyledTable = styled.table`
@@ -26,11 +27,13 @@ export const TableRow = styled.tr`
   background-color: ${({ theme }) => theme.background};
 
   &:nth-child(even) {
-    background-color: ${({ theme }) => theme.background === '#ffffff' ? '#f9f9f9' : '#2a2a2a'};
+    background-color: ${({ theme }) =>
+      theme.background === '#ffffff' ? '#f9f9f9' : '#2a2a2a'};
   }
 
   &:hover {
-    background-color: ${({ theme }) => theme.background === '#ffffff' ? '#eaeaea' : '#3a3a3a'};
+    background-color: ${({ theme }) =>
+      theme.background === '#ffffff' ? '#eaeaea' : '#3a3a3a'};
   }
 `;
 
@@ -45,7 +48,6 @@ export const PaginationWrapper = styled.div`
   display: flex;
   justify-content: center;
 `;
-
 
 export const ErrorMessage = styled.div`
   background-color: #f44336;

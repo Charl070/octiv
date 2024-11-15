@@ -1,6 +1,9 @@
 // ThemeContext.tsx
 import React, { createContext, useContext, useState } from 'react';
-import { ThemeProvider as StyledThemeProvider, DefaultTheme } from 'styled-components';
+import {
+  ThemeProvider as StyledThemeProvider,
+  DefaultTheme,
+} from 'styled-components';
 
 interface ThemeContextProps {
   isDarkMode: boolean;
@@ -11,7 +14,7 @@ const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
 
 export const useTheme = () => {
   const context = useContext(ThemeContext);
-  if (!context) throw new Error("useTheme must be used within a ThemeProvider");
+  if (!context) throw new Error('useTheme must be used within a ThemeProvider');
   return context;
 };
 
@@ -27,7 +30,9 @@ const darkTheme: DefaultTheme = {
   mapStyle: 'mapbox://styles/mapbox/dark-v10',
 };
 
-export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const toggleTheme = () => setIsDarkMode(!isDarkMode);

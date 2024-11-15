@@ -7,7 +7,7 @@ interface SearchParams {
   limit: number;
   search?: string;
   category?: string;
-  [key: string]: any; 
+  [key: string]: any;
 }
 
 interface PlacesContextProps {
@@ -22,18 +22,33 @@ interface PlacesContextProps {
 
 const PlacesContext = createContext<PlacesContextProps | undefined>(undefined);
 
-export const PlacesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [searchParams, setSearchParams] = useState<SearchParams>({ page: 1, limit: 10 });
+export const PlacesProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [searchParams, setSearchParams] = useState<SearchParams>({
+    page: 1,
+    limit: 10,
+  });
 
-  const { data: placesData, refetch: refetchPlaces, isLoading: placesLoading, isError, error } = useQuery({
+  const {
+    data: placesData,
+    refetch: refetchPlaces,
+    isLoading: placesLoading,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ['places', searchParams],
     queryFn: () => fetchPlaces(searchParams),
   });
 
-  const placesError = isError ? (error instanceof Error ? error.message : 'Error fetching places') : null;
+  const placesError = isError
+    ? error instanceof Error
+      ? error.message
+      : 'Error fetching places'
+    : null;
 
   const updatePagination = (page: number, limit: number) => {
-    setSearchParams(prevParams => ({
+    setSearchParams((prevParams) => ({
       ...prevParams,
       page,
       limit,
@@ -41,15 +56,17 @@ export const PlacesProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   };
 
   return (
-    <PlacesContext.Provider value={{ 
-      searchParams, 
-      setSearchParams, 
-      placesData, 
-      placesLoading, 
-      placesError, 
-      refetchPlaces, 
-      updatePagination 
-    }}>
+    <PlacesContext.Provider
+      value={{
+        searchParams,
+        setSearchParams,
+        placesData,
+        placesLoading,
+        placesError,
+        refetchPlaces,
+        updatePagination,
+      }}
+    >
       {children}
     </PlacesContext.Provider>
   );
@@ -58,7 +75,7 @@ export const PlacesProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 export const usePlaces = () => {
   const context = useContext(PlacesContext);
   if (!context) {
-    throw new Error("usePlaces must be used within a PlacesProvider");
+    throw new Error('usePlaces must be used within a PlacesProvider');
   }
   return context;
 };

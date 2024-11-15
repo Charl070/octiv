@@ -14,14 +14,21 @@ const ToggleView: React.FC = () => {
         <S.ToggleButton active={view === 'map'} onClick={() => setView('map')}>
           Maps
         </S.ToggleButton>
-        <S.ToggleButton active={view === 'table'} onClick={() => setView('table')}>
+        <S.ToggleButton
+          active={view === 'table'}
+          onClick={() => setView('table')}
+        >
           Places
         </S.ToggleButton>
       </S.ToggleButtonContainer>
-      
-      {view === 'map' ? <MapView /> : <Suspense fallback={<LoadingSpinner/>}>
+
+      {view === 'map' ? (
+        <MapView />
+      ) : (
+        <Suspense fallback={<LoadingSpinner />}>
           <TableView />
-        </Suspense>}
+        </Suspense>
+      )}
     </S.Container>
   );
 };

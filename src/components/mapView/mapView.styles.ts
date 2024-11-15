@@ -6,7 +6,6 @@ export const MapContainer = styled.div`
   border-radius: 8px;
   overflow: hidden;
   background-color: ${({ theme }) => theme.background};
-
 `;
 
 export const SearchInput = styled.input`

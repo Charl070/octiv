@@ -5,13 +5,15 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { usePlaces } from '../../context/placesContext';
 import LoadingSpinner from '../loader';
 import * as S from './mapView.styles';
+import axios from 'axios';
 
 const MapComponent: React.FC = () => {
   const { placesData, placesLoading, placesError } = usePlaces();
   const theme = useTheme();
-  
+
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPlace, setSelectedPlace] = useState<any | null>(null);
+  const [categoryEmojis, setCategoryEmojis] = useState<any>({});
 
   const filteredPlaces = placesData?.data.filter((place: any) =>
     place.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -34,11 +36,10 @@ const MapComponent: React.FC = () => {
       setViewport({
         latitude: selectedPlace?.coordinates?.lat,
         longitude: selectedPlace?.coordinates?.lon,
-        zoom: 12, 
+        zoom: 12,
       });
     }
   }, [selectedPlace]);
-
 
   const [viewport, setViewport] = useState<any>({
     latitude: 54.526,
@@ -46,7 +47,41 @@ const MapComponent: React.FC = () => {
     zoom: 3,
   });
 
-  if (placesLoading) return <LoadingSpinner/>;
+  useEffect(() => {
+    const fetchCategoryEmojis = async () => {
+      const categories = [
+        'food',
+        'restaurant',
+        'shop',
+        'entertainment',
+        'park',
+        'museum',
+      ];
+      const emojiMapping: any = {};
+
+      try {
+        for (const category of categories) {
+          const response = await axios.get(
+            `https://emoji-api.com/emojis?search=${category}&access_key=${process.env.REACT_APP_EMOJI_API_KEY}`
+          );
+          if (response.data && response.data.length > 0) {
+            emojiMapping[category] = response.data[1].character;
+          }
+        }
+        setCategoryEmojis(emojiMapping);
+      } catch (error) {
+        console.error('Error fetching emojis:', error);
+      }
+    };
+
+    fetchCategoryEmojis();
+  }, []);
+
+  const handleMarkerClick = (place: any) => {
+    setSelectedPlace(place);
+  };
+
+  if (placesLoading) return <LoadingSpinner />;
 
   if (placesError) return <S.ErrorMessage>{placesError}</S.ErrorMessage>;
 
@@ -57,34 +92,34 @@ const MapComponent: React.FC = () => {
         style={{ width: '100%', height: '100%' }}
         mapStyle={theme.mapStyle}
         mapboxAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
-        //onViewportChange={(newViewport) => setViewport(newViewport)} // Allow manual interaction with the map
       >
-        {/* Search Form */}
         <S.SearchInput
           value={searchQuery}
           onChange={handleSearchChange}
-          onKeyDown={(e) => e.key === 'Enter' && handleSearchSubmit(e)} // Trigger search on Enter
+          onKeyDown={(e) => e.key === 'Enter' && handleSearchSubmit(e)}
           placeholder="Search places"
         />
 
-        {/* Display markers for filtered places */}
         {!placesLoading &&
           filteredPlaces?.map((place: any) => (
             <Marker
               key={place.id}
               latitude={place?.coordinates?.lat}
               longitude={place?.coordinates?.lon}
+              onClick={() => handleMarkerClick(place)}
             >
-              <S.MarkerIcon />
+              <div style={{ fontSize: '24px', cursor: 'pointer' }}>
+                {categoryEmojis[place.category] || '❓'}
+              </div>
             </Marker>
           ))}
 
-        {/* Optionally, show a modal or details for the selected place */}
         {selectedPlace && (
           <S.PlaceDetails>
             <h3>{selectedPlace.name}</h3>
             <p>{selectedPlace.description}</p>
             <p>{selectedPlace.address}</p>
+            <p>Category: {selectedPlace.category}</p>
           </S.PlaceDetails>
         )}
       </Map>
