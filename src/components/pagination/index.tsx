@@ -29,7 +29,7 @@ const Pagination: React.FC<PaginationProps> = ({
           active={i === currentPage}
         >
           {i}
-        </S.PageButton>
+        </S.PageButton>,
       );
     }
 

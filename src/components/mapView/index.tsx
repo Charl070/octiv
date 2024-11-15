@@ -16,7 +16,7 @@ const MapComponent: React.FC = () => {
   const [categoryEmojis, setCategoryEmojis] = useState<any>({});
 
   const filteredPlaces = placesData?.data.filter((place: any) =>
-    place.name.toLowerCase().includes(searchQuery.toLowerCase())
+    place.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,7 +62,7 @@ const MapComponent: React.FC = () => {
       try {
         for (const category of categories) {
           const response = await axios.get(
-            `https://emoji-api.com/emojis?search=${category}&access_key=${process.env.REACT_APP_EMOJI_API_KEY}`
+            `https://emoji-api.com/emojis?search=${category}&access_key=${process.env.REACT_APP_EMOJI_API_KEY}`,
           );
           if (response.data && response.data.length > 0) {
             emojiMapping[category] = response.data[1].character;
