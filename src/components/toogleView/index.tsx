@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import MapView from '../mapView';
-import TableView from '../tableView';
 import * as S from './toggleView.styles';
+import LoadingSpinner from '../loader';
+
+const TableView = React.lazy(() => import('../tableView'));
 
 const ToggleView: React.FC = () => {
   const [view, setView] = useState<'map' | 'table'>('map');
@@ -17,7 +19,9 @@ const ToggleView: React.FC = () => {
         </S.ToggleButton>
       </S.ToggleButtonContainer>
       
-      {view === 'map' ? <MapView /> : <TableView />}
+      {view === 'map' ? <MapView /> : <Suspense fallback={<LoadingSpinner/>}>
+          <TableView />
+        </Suspense>}
     </S.Container>
   );
 };
