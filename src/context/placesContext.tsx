@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchPlaces } from '../services/api/places';
-import { useJsApiLoader } from '@react-google-maps/api';
 
 interface SearchParams {
   page: number;
@@ -26,7 +25,6 @@ const PlacesContext = createContext<PlacesContextProps | undefined>(undefined);
 export const PlacesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [searchParams, setSearchParams] = useState<SearchParams>({ page: 1, limit: 10 });
 
-  // React Query to fetch places
   const { data: placesData, refetch: refetchPlaces, isLoading: placesLoading, isError, error } = useQuery({
     queryKey: ['places', searchParams],
     queryFn: () => fetchPlaces(searchParams),
@@ -41,11 +39,6 @@ export const PlacesProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       limit,
     }));
   };
-
-  useJsApiLoader({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY ?? "",
-    id: 'google-map-script',
-  });
 
   return (
     <PlacesContext.Provider value={{ 
