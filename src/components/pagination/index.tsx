@@ -11,7 +11,6 @@ interface PaginationProps {
 
 const Pagination: React.FC<PaginationProps> = ({ currentPage, totalItems, itemsPerPage, onPageChange }) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const MAX_PAGE_DISPLAY = 5;
 
   const renderPageNumbers = () => {
     const pages = [];

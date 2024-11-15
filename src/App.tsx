@@ -2,7 +2,6 @@ import React from "react";
 import {
   QueryClient,
   QueryClientProvider,
-  useQuery,
 } from "@tanstack/react-query";
 import GlobalStyles from './styles/globalStyles';
 import { PlacesProvider } from "./context/placesContext";

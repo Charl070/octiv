@@ -45,3 +45,29 @@ export const PaginationWrapper = styled.div`
   display: flex;
   justify-content: center;
 `;
+
+
+export const ErrorMessage = styled.div`
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  z-index: 10;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+`;
+
+export const ReloadButton = styled.button`
+  background-color: #ff9800;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 10px;
+
+  &:hover {
+    background-color: #e68900;
+  }
+`;

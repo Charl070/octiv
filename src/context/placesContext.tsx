@@ -16,6 +16,7 @@ interface PlacesContextProps {
   setSearchParams: React.Dispatch<React.SetStateAction<SearchParams>>;
   placesData: any;
   placesLoading: boolean;
+  placesError: string | null;
   refetchPlaces: () => void;
   updatePagination: (page: number, limit: number) => void;
 }
@@ -25,10 +26,13 @@ const PlacesContext = createContext<PlacesContextProps | undefined>(undefined);
 export const PlacesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [searchParams, setSearchParams] = useState<SearchParams>({ page: 1, limit: 10 });
 
-  const { data: placesData, refetch: refetchPlaces, isLoading: placesLoading } = useQuery({
+  // React Query to fetch places
+  const { data: placesData, refetch: refetchPlaces, isLoading: placesLoading, isError, error } = useQuery({
     queryKey: ['places', searchParams],
     queryFn: () => fetchPlaces(searchParams),
   });
+
+  const placesError = isError ? (error instanceof Error ? error.message : 'Error fetching places') : null;
 
   const updatePagination = (page: number, limit: number) => {
     setSearchParams(prevParams => ({
@@ -44,7 +48,15 @@ export const PlacesProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   });
 
   return (
-    <PlacesContext.Provider value={{ searchParams, setSearchParams, placesData, placesLoading, refetchPlaces, updatePagination }}>
+    <PlacesContext.Provider value={{ 
+      searchParams, 
+      setSearchParams, 
+      placesData, 
+      placesLoading, 
+      placesError, 
+      refetchPlaces, 
+      updatePagination 
+    }}>
       {children}
     </PlacesContext.Provider>
   );
