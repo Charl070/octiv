@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import MapView from '../mapView';
 import TableView from '../tableView';
-import * as S from './toggleView.styles'
-
+import * as S from './toggleView.styles';
 
 const ToggleView: React.FC = () => {
   const [view, setView] = useState<'map' | 'table'>('map');

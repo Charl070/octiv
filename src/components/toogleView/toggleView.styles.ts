@@ -5,6 +5,7 @@ export const Container = styled.div`
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  background-color: ${({ theme }) => theme.background};
 `;
 
 export const ToggleButtonContainer = styled.div`
@@ -13,8 +14,8 @@ export const ToggleButtonContainer = styled.div`
 `;
 
 export const ToggleButton = styled.button<{ active: boolean }>`
-  background-color: ${({ active }) => (active ? '#007bff' : '#e0e0e0')};
-  color: ${({ active }) => (active ? '#fff' : '#000')};
+  background-color: ${({ active, theme }) => (active ? '#007bff' : theme.background)};
+  color: ${({ active, theme }) => (active ? '#fff' : theme.text)};
   border: none;
   padding: 0.5rem 1rem;
   margin: 0 0.5rem;
@@ -22,7 +23,7 @@ export const ToggleButton = styled.button<{ active: boolean }>`
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
-  
+
   &:hover {
     background-color: ${({ active }) => (active ? '#0056b3' : '#d0d0d0')};
   }

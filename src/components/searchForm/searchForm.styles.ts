@@ -13,6 +13,8 @@ export const Input = styled.input`
   border-radius: 4px;
   font-size: 1rem;
   width: 200px;
+  color: ${({ theme }) => theme.text};
+  background-color: ${({ theme }) => theme.background};
 
   &:focus {
     border-color: #333;

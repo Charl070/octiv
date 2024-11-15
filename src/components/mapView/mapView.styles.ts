@@ -2,20 +2,20 @@ import styled from 'styled-components';
 
 export const MapContainer = styled.div`
   width: 100%;
-  height: 600px;
-  margin-top: 1rem;
+  height: 400px;
   border-radius: 8px;
   overflow: hidden;
 `;
 
-export const StyledMarker = styled.div<{ category: string }>`
-  font-size: 24px;
-  cursor: pointer;
-
-  ${({ category }) =>
-    category === 'food'
-      ? 'color: #ff6347;' // Example: red color for food category
-      : category === 'service_station'
-      ? 'color: #4682b4;' // Example: blue color for service stations
-      : 'color: #32cd32;'} // Example: green color for other categories
+export const SearchInput = styled.input`
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px;
+  width: 200px;
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  outline: none;
 `;

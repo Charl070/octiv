@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { usePlaces } from '../../context/placesContext';
 import PlaceDetailsModal from '../placesDetailModal';
-import Pagination from '../pagination'; 
+import Pagination from '../pagination';
 import * as S from './tableView.styles';
 import SearchForm from '../searchForm';
 import LoadingSpinner from '../loader';
@@ -11,40 +11,26 @@ const TableView: React.FC = () => {
     const [selectedPlace, setSelectedPlace] = useState<any>(null);
     const [sortConfig, setSortConfig] = useState<{ key: string; direction: string } | null>(null);
 
-    const itemsPerPage = 10;
-
     const handleSort = (key: string) => {
-        let direction = 'ascending';
-        if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
-            direction = 'descending';
-        }
+        const direction = sortConfig?.key === key && sortConfig.direction === 'asc' ? 'desc' : 'asc';
         setSortConfig({ key, direction });
     };
 
     const sortedPlaces = React.useMemo(() => {
         if (!placesData?.data) return [];
-        let sortedData = [...placesData?.data];
-
-        if (sortConfig) {
-            sortedData.sort((a, b) => {
-                if (a[sortConfig.key] < b[sortConfig.key]) {
-                    return sortConfig.direction === 'ascending' ? -1 : 1;
-                }
-                if (a[sortConfig.key] > b[sortConfig.key]) {
-                    return sortConfig.direction === 'ascending' ? 1 : -1;
-                }
-                return 0;
-            });
-        }
-
-        return sortedData;
+        return [...placesData.data].sort((a, b) => {
+            if (!sortConfig) return 0;
+            const order = sortConfig.direction === 'asc' ? 1 : -1;
+            return a[sortConfig.key].localeCompare(b[sortConfig.key]) * order;
+        });
     }, [placesData, sortConfig]);
 
-    const handlePageChange = (pageNumber: number) => {
-        updatePagination(pageNumber, itemsPerPage);
-    };
+    if (placesLoading) return <LoadingSpinner />;
 
-    if (placesLoading) return <LoadingSpinner/>;
+
+const handlePageChange = (pageNumber: number) => {
+    updatePagination(pageNumber, 10);
+};
 
     return (
       <S.TableContainer>
@@ -74,11 +60,10 @@ const TableView: React.FC = () => {
             <Pagination
           currentPage={searchParams.page}
           totalItems={placesData?.meta?.totalItems || 0}
-          itemsPerPage={itemsPerPage}
+          itemsPerPage={10}
           onPageChange={handlePageChange}
         />
         </S.PaginationWrapper>
-        
 
         {selectedPlace && (
           <PlaceDetailsModal placeId={selectedPlace.id} onClose={() => setSelectedPlace(null)} />
@@ -88,3 +73,4 @@ const TableView: React.FC = () => {
 };
 
 export default TableView;
+
